@@ -19,79 +19,28 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-    const todoCollection = client.db("todo").collection("todoCollection");
+    const EnventCollection = client.db("Event").collection("EnventCollection");
 
-    ///////////////////////////////get todo///////////////////////////////
-    app.get("/todos", async (req, res) => {
+
+    ///////////// get event///////////// 
+    app.get("/event", async (req, res) => {
       const query = {};
-      const cursor = todoCollection.find(query);
+      const cursor = EnventCollection.find(query);
       const todos = await cursor.toArray();
       res.send(todos);
     });
-    ///////////////////////////////get todo///////////////////////////////
 
-    ///////////////////////////////post todo///////////////////////////////
-    app.post("/todo", async (req, res) => {
-      const added = req.body;
-      const result = await todoCollection.insertOne(added);
+    ///////////// get event///////////// 
+
+
+    ///////////////  post event///////// 
+    app.post("/addevent", async (req, res) => {
+      const newproduct = req.body;
+      const result = await EnventCollection.insertOne(newproduct);
       res.send(result);
     });
-
-    ///////////////////////////////post todo///////////////////////////////
-
-    ///////////////////////////////delete todo//////////////////////////
-    app.delete("/deletetodo/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const result = await todoCollection.deleteOne(query);
-      res.send(result);
-    });
-    ///////////////////////////////delete todo//////////////////////////
-
-    ///////////////////////////////update todo//////////////////////////
-
-    app.put("/updatetodo/:id", async (req, res) => {
-      const id = req.params.id;
-      const updateUser = req.body;
-
-      const filter = { _id: ObjectId(id) };
-      const options = { upsert: true };
-      const updatedDoc = {
-        $set: {
-          toDo: updateUser.todo
-        }
-      };
-      const result = await todoCollection.updateOne(
-        filter,
-        updatedDoc,
-        options
-      );
-      res.send(result);
-    });
-    ///////////////////////////////update todo//////////////////////////
-
-    ///////////////////////////////taskdone//////////////////////////
-
-    app.put("/taskdone/:id", async (req, res) => {
-      const id = req.params.id;
-      const updateUser = req.body;
-
-      const filter = { _id: ObjectId(id) };
-      const options = { upsert: true };
-      const updatedDoc = {
-        $set: {
-          taskDone: updateUser.taskDone
-        }
-      };
-      const result = await todoCollection.updateOne(
-        filter,
-        updatedDoc,
-        options
-      );
-      res.send(result);
-    });
-
-    ///////////////////////////////taskdone//////////////////////////
+    ///////////// get event///////////// 
+    
   } finally {
   }
 }
@@ -103,3 +52,75 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log("listening to port variable");
 });
+
+//  ///////////////////////////////get todo///////////////////////////////
+//  app.get("/todos", async (req, res) => {
+//   const query = {};
+//   const cursor = todoCollection.find(query);
+//   const todos = await cursor.toArray();
+//   res.send(todos);
+// });
+// ///////////////////////////////get todo///////////////////////////////
+
+// ///////////////////////////////post todo///////////////////////////////
+// app.post("/todo", async (req, res) => {
+//   const added = req.body;
+//   const result = await todoCollection.insertOne(added);
+//   res.send(result);
+// });
+
+// ///////////////////////////////post todo///////////////////////////////
+
+// ///////////////////////////////delete todo//////////////////////////
+// app.delete("/deletetodo/:id", async (req, res) => {
+//   const id = req.params.id;
+//   const query = { _id: ObjectId(id) };
+//   const result = await todoCollection.deleteOne(query);
+//   res.send(result);
+// });
+// ///////////////////////////////delete todo//////////////////////////
+
+// ///////////////////////////////update todo//////////////////////////
+
+// app.put("/updatetodo/:id", async (req, res) => {
+//   const id = req.params.id;
+//   const updateUser = req.body;
+
+//   const filter = { _id: ObjectId(id) };
+//   const options = { upsert: true };
+//   const updatedDoc = {
+//     $set: {
+//       toDo: updateUser.todo
+//     }
+//   };
+//   const result = await todoCollection.updateOne(
+//     filter,
+//     updatedDoc,
+//     options
+//   );
+//   res.send(result);
+// });
+// ///////////////////////////////update todo//////////////////////////
+
+// ///////////////////////////////taskdone//////////////////////////
+
+// app.put("/taskdone/:id", async (req, res) => {
+//   const id = req.params.id;
+//   const updateUser = req.body;
+
+//   const filter = { _id: ObjectId(id) };
+//   const options = { upsert: true };
+//   const updatedDoc = {
+//     $set: {
+//       taskDone: updateUser.taskDone
+//     }
+//   };
+//   const result = await todoCollection.updateOne(
+//     filter,
+//     updatedDoc,
+//     options
+//   );
+//   res.send(result);
+// });
+
+// ///////////////////////////////taskdone//////////////////////////
