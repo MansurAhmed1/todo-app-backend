@@ -19,13 +19,13 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-    const EnventCollection = client.db("Event").collection("EnventCollection");
+    const EventCollection = client.db("Event").collection("EventCollection");
 
 
     ///////////// get event///////////// 
     app.get("/event", async (req, res) => {
       const query = {};
-      const cursor = EnventCollection.find(query);
+      const cursor = EventCollection.find(query);
       const todos = await cursor.toArray();
       res.send(todos);
     });
@@ -35,12 +35,12 @@ async function run() {
 
     ///////////////  post event///////// 
     app.post("/addevent", async (req, res) => {
-      const newproduct = req.body;
-      const result = await EnventCollection.insertOne(newproduct);
+      const event = req.body;
+      const result = await EventCollection.insertOne(event);
       res.send(result);
     });
     ///////////// get event///////////// 
-    
+
   } finally {
   }
 }
